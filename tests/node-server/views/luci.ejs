@@ -38,8 +38,6 @@
 
 
 <head>
-    <script src="/luci-static/resources/jquery.min.js" type="text/javascript"></script>
-    <script src="/luci-static/resources/commotion-ws.js" type="text/javascript"></script>
 
     <title>Commotion Chat Application</title>
 
@@ -153,7 +151,10 @@ $(document).ready(function(){
         $(this).addClass("active");
         $(this).siblings().removeClass("active");
     });
-    
+
+    // collect history in pouch
+    chats = Pouch('idb://chats');
+
     cws.on(["norm","error"],function(ret){
         var idx=0;
         cws.forclients(function(client){
@@ -164,6 +165,10 @@ $(document).ready(function(){
             var s=d.getSeconds();
             var time = h+":"+m+":"+s;   
                 $('.chatwindow').append('<li class='+ret.message_type+'><b>'+time+"  "+client.hostname+'</b> - '+ret.data+'</li>');
+                chats.post({
+                  date: d,
+                  msg: ret
+                });
                 return;
           }
           idx++;
