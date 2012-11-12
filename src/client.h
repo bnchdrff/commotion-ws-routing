@@ -103,7 +103,7 @@ extern "C" {
     extern void init_client_contex(){
         context = libwebsocket_create_context(CONTEXT_PORT_NO_LISTEN, NULL,
                 _client_protocols, libwebsocket_internal_extensions,
-                NULL, NULL, -1, -1, 0);
+                NULL, NULL, -1, -1, 0, NULL);
         if (context == NULL) {
             fprintf(stderr, "Creating libwebsocket context failed\n");
             return;
